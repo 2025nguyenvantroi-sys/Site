@@ -1,0 +1,90 @@
+
+-- ESP HUB | DELTA ANDROID
+-- UI DEMO
+
+local CoreGui = game:GetService("CoreGui")
+
+local old = CoreGui:FindFirstChild("ESP_HUB")
+if old then old:Destroy() end
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "ESP_HUB"
+gui.ResetOnSpawn = false
+gui.Parent = CoreGui
+
+local esp = false
+local tracer = false
+
+-- MAIN MENU
+local main = Instance.new("Frame",gui)
+main.Size = UDim2.fromOffset(210,190)
+main.Position = UDim2.new(.5,-105,.4,0)
+main.BackgroundColor3 = Color3.fromRGB(20,20,28)
+main.Active = true
+main.Draggable = true
+
+local title = Instance.new("TextLabel",main)
+title.Size = UDim2.new(1,0,0,35)
+title.Text = "ESP HUB"
+title.TextColor3 = Color3.new(1,1,1)
+title.BackgroundColor3 = Color3.fromRGB(140,20,50)
+
+local function makeButton(name,y)
+    local b = Instance.new("TextButton",main)
+    b.Position = UDim2.fromOffset(10,y)
+    b.Size = UDim2.new(1,-20,0,35)
+    b.Text = name
+    b.TextColor3 = Color3.new(1,1,1)
+    b.BackgroundColor3 = Color3.fromRGB(50,50,60)
+    return b
+end
+
+local espBtn = makeButton("ESP: OFF",45)
+local tracerBtn = makeButton("TRACER: OFF",85)
+local hideBtn = makeButton("HIDE MENU",125)
+
+-- CROSSHAIR
+local circle = Instance.new("Frame",gui)
+circle.Size = UDim2.fromOffset(120,120)
+circle.Position = UDim2.new(.5,-60,.5,-60)
+circle.BackgroundTransparency = 1
+
+local corner = Instance.new("UICorner",circle)
+corner.CornerRadius = UDim.new(1,0)
+
+local stroke = Instance.new("UIStroke",circle)
+stroke.Color = Color3.fromRGB(0,255,100)
+stroke.Thickness = 2
+
+-- TOGGLES
+espBtn.MouseButton1Click:Connect(function()
+    esp = not esp
+    espBtn.Text = esp and "ESP: ON" or "ESP: OFF"
+end)
+
+tracerBtn.MouseButton1Click:Connect(function()
+    tracer = not tracer
+    tracerBtn.Text = tracer and "TRACER: ON" or "TRACER: OFF"
+end)
+
+-- HIDE / SHOW
+hideBtn.MouseButton1Click:Connect(function()
+    main.Visible = false
+end)
+
+local open = Instance.new("TextButton",gui)
+open.Size = UDim2.fromOffset(65,35)
+open.Position = UDim2.new(0,10,.3,0)
+open.Text = "OPEN"
+open.Visible = false
+
+hideBtn.MouseButton1Click:Connect(function()
+    open.Visible = true
+end)
+
+open.MouseButton1Click:Connect(function()
+    main.Visible = true
+    open.Visible = false
+end)
+
+print("ESP HUB LOADED")
